@@ -1,6 +1,5 @@
 #!/bin/bash
 
-EXEC=${2:-train.sh}
 SUB_DIR_PATH="/workspace/CoModels/nlp/libai"
 WORKSPACE="/workspace/temp_model"
 
@@ -23,10 +22,15 @@ process_subdir() {
 
   cd "$WORKSPACE"
 
-  if [ -f "./$EXEC" ]; then
-    bash ./$EXEC
+  if [ -f "./train.sh" ]; then
+    bash ./train.sh
   else
-    echo "$EXEC not found in $WORKSPACE"
+    echo "train.sh not found in $WORKSPACE"
+  fi
+  if [ -f "./infer.sh" ]; then
+    bash ./infer.sh
+  else
+    echo "infer.sh not found in $WORKSPACE"
   fi
 
   cd - > /dev/null
