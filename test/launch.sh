@@ -8,6 +8,7 @@ docker run -it --rm --runtime=nvidia --privileged \
   --ipc=host \
   -v /data:/data \
   -v /data/dataset/coco:/dataset/mscoco_2017 \
+  -v /data/dataset/ms1m-retinaface-t1:/train_tmp/ms1m-retinaface-t1 \
   -v $parent_dir:/workspace/CoModels \
   -v $parent_dir/cached_models:/root/.oneflow \
   -w /workspace \
