@@ -1,7 +1,7 @@
 #!/bin/bash
 
-EXEC=${2:-val.sh}
-SUB_DIR_PATH="/workspace/CoModels/cv/Face_Recognition"
+EXEC=${2:-train.sh}
+SUB_DIR_PATH="/workspace/CoModels/nlp"
 WORKSPACE="/workspace/temp_model"
 
 if [ $# -ne 1 ]; then
@@ -11,7 +11,7 @@ fi
 
 option="$1"
 
-subdirs=("iresnet50" "iresnet101")
+subdirs=("odd_numbers")
 
 process_subdir() {
   local dir="$SUB_DIR_PATH/$1"
