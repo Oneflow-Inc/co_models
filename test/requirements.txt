@@ -10,3 +10,6 @@ flowvision
 termcolor
 pycocotools
 easydict
+pyevtk==1.6.0
+vtk==9.2.6
+wget==3.2
