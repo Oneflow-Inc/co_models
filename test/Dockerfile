@@ -10,3 +10,11 @@ RUN python3 -m pip install --pre oneflow -f https://oneflow-staging.oss-cn-beiji
 WORKDIR /workspace
 
 RUN rm /tmp/requirements.txt
+
+RUN apt-get update && apt-get install -y git \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN git clone https://github.com/Oneflow-Inc/libai.git /opt/libai \
+    && cd /opt/libai \
+    && pip3 install -r requirements.txt \
+    && pip3 install -e /opt/libai
