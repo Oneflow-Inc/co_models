@@ -1,7 +1,7 @@
 #!/bin/bash
 
 EXEC=${2:-infer.sh}
-SUB_DIR_PATH="/workspace/CoModels/cv/detection"
+SUB_DIR_PATH="/data/xiexuan/git-repos/CoModels/cv/segment"
 WORKSPACE="/workspace/temp_model"
 
 if [ $# -ne 1 ]; then
@@ -20,8 +20,6 @@ process_subdir() {
   mkdir -p "$WORKSPACE"
 
   cp -rL "$dir"/* "$WORKSPACE"
-  cp -rL "$SUB_DIR_PATH/retinanet_resnet50_fpn" "$WORKSPACE"
-  cp -rL "$SUB_DIR_PATH/fcos_resnet50_fpn" "$WORKSPACE"
 
   cd "$WORKSPACE"
 
