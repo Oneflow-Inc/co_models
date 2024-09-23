@@ -1,7 +1,7 @@
 DATA:
   BATCH_SIZE: 32
   DATASET: imagenet
-  DATA_PATH: /data/dataset/ImageNet/extract
+  DATA_PATH: /data0/datasets/ImageNet/extract
   IMG_SIZE: 224
   INTERPOLATION: bicubic
   ZIP_MODE: False
