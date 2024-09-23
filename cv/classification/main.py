@@ -8,6 +8,7 @@ import argparse
 import datetime
 import numpy as np
 import oneflow as flow
+import oneflow_npu
 import oneflow.backends.cudnn as cudnn
 
 from flowvision.loss.cross_entropy import (
@@ -141,7 +142,8 @@ def main(config):
 
     logger.info(f"Creating model:{config.MODEL.ARCH}")
     model = build_model(config)
-    model.cuda()
+    #model.cuda()
+    model.to("npu")
 
     optimizer = build_optimizer(config, model)
     model = flow.nn.parallel.DistributedDataParallel(model, broadcast_buffers=False, use_bucket=False)
@@ -255,8 +257,8 @@ def train_one_epoch(
     start = time.time()
     end = time.time()
     for idx, (samples, targets) in enumerate(data_loader):
-        samples = samples.cuda()
-        targets = targets.cuda()
+        samples = samples.to("npu")
+        targets = targets.to("npu")
 
         if mixup_fn is not None:
             samples, targets = mixup_fn(samples, targets)
@@ -324,15 +326,15 @@ def validate(config, data_loader, model):
 
     end = time.time()
     for idx, (images, target) in enumerate(data_loader):
-        images = images.cuda()
-        target = target.cuda()
+        images = images.to("npu")
+        target = target.to("npu")
 
         # compute output
         output = model(images)
 
         # measure accuracy and record loss
         loss = criterion(output, target)
-        acc1, acc5 = accuracy(output, target, topk=(1, 5))
+        acc1, acc5 = accuracy(output.cpu(), target.cpu(), topk=(1, 5))
 
         acc1 = reduce_tensor(acc1)
         acc5 = reduce_tensor(acc5)
@@ -370,18 +372,20 @@ def throughput(data_loader, model, logger):
     model.eval()
 
     for idx, (images, _) in enumerate(data_loader):
-        images = images.cuda()
+        images = images.to("npu")
         batch_size = images.shape[0]
         for i in range(50):
             model(images)
-        flow.cuda.synchronize()
+        if flow.cuda.is_available():
+            flow.cuda.synchronize()
         # TODO: add flow.cuda.synchronize()
         logger.info(f"throughput averaged with 30 times")
         tic1 = time.time()
         for i in range(30):
             model(images)
 
-        flow.cuda.synchronize()
+        if flow.cuda.is_available():
+            flow.cuda.synchronize()
         tic2 = time.time()
         logger.info(
             f"batch_size {batch_size} throughput {30 * batch_size / (tic2 - tic1)}"
