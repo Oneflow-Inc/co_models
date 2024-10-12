@@ -18,3 +18,6 @@ RUN git clone https://github.com/Oneflow-Inc/libai.git /opt/libai \
     && cd /opt/libai \
     && pip3 install -r requirements.txt \
     && pip3 install -e /opt/libai
+
+RUN git clone --branch release_demo https://github.com/Oneflow-Inc/CoModels.git /workspace
+
