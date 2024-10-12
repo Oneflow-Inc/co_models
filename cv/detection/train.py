@@ -15,8 +15,6 @@ from group_by_aspect_ratio import GroupedBatchSampler, create_aspect_ratio_group
 import presets 
 import utils
 
-import retinanet_resnet50_fpn # Registry
-import fcos_resnet50_fpn # Registry
 
 def get_dataset(name, image_set, transform, data_path):
     paths = {"coco": (data_path, get_coco, 91), "coco_kp": (data_path, get_coco_kp, 2)}
