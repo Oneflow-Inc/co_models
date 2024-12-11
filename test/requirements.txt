@@ -1,0 +1,15 @@
+click == 8.1.7
+omegaconf == 2.1.0
+matplotlib
+Pillow
+opencv-python
+scikit-learn
+scipy==1.7.1
+yacs
+flowvision
+termcolor
+pycocotools
+easydict
+pyevtk==1.6.0
+vtk==9.2.6
+wget==3.2
